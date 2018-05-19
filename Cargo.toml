@@ -1,0 +1,8 @@
+[package]
+name = "koundb"
+version = "0.1.0"
+authors = ["zhangguyu <zhangguyu6@gmail.com>"]
+
+[dependencies]
+indexmap = "^1.0"
+byteorder = "^1"
