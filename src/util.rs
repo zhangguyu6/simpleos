@@ -1,5 +1,8 @@
+use errors::Error;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
+use std::time::SystemTime;
+pub type Timestamp = u64;
 
 // 返回key的u64哈希值
 pub fn get_hash<T>(key: &T) -> u64
@@ -11,16 +14,12 @@ where
     keyref.hash(&mut hasher);
     hasher.finish()
 }
-
-// hash : u64 哈希值
-// level: u64 当前bucket的最大数量为 (n+1)^2 (初始为0)
-// split: u64 当前split的bucket数量 (初始为0)
-// 根据hash level 和 split 计算 bucket的index
-pub fn get_indexpos(hash: u64, level: u64, split: u64) -> u64 {
-    let bucket = hash % (1 << level);
-    if bucket < split {
-        hash % (1 << (level + 1))
-    } else {
-        bucket
-    }
+// 返回当前时间戳
+pub fn get_timestamp() -> Result<Timestamp, Error> {
+    let duration = SystemTime::now().elapsed()?;
+    Ok(duration.as_secs() * 1000 + duration.subsec_millis() as u64)
+}
+#[inline]
+pub fn roundup(size: usize, base: usize) -> usize {
+    (size+base-1)/base
 }

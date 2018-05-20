@@ -1,4 +1,7 @@
 #![feature(rustc_private)]
+#![feature(duration_extras)]
+
+
 
 extern crate indexmap;
 extern crate byteorder;
